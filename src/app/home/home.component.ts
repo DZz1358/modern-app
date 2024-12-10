@@ -23,7 +23,7 @@ export class HomePage implements OnInit {
   public dummyArray = new Array(9);
   cartService = inject(CartService)
   cart$!: Observable<any>;
-  public cartProducts: any = {}
+  public cartProducts: any = []
 
 
 
