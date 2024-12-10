@@ -3,9 +3,10 @@ import { ProductsService } from '../service/products.service';
 import { Component, inject, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { IonHeader, IonIcon, IonToolbar, IonTitle, IonContent, IonList, IonItem, IonAvatar, IonSkeletonText, IonAlert, IonLabel, IonBadge, IonBackButton, IonButtons, IonButton } from '@ionic/angular/standalone';
-import { catchError, finalize } from 'rxjs';
+import { catchError, finalize, Observable } from 'rxjs';
 import { addIcons } from 'ionicons';
 import { logoIonic, cart, cartOutline } from 'ionicons/icons';
+import { CartService } from '../service/cart.service';
 
 @Component({
   selector: 'app-home',
@@ -19,7 +20,11 @@ export class HomePage implements OnInit {
   public isLoading = false;
   public products: any[] = [];
   public error = null;
-  public dummyArray = new Array(5);
+  public dummyArray = new Array(9);
+  cartService = inject(CartService)
+  cart$!: Observable<any>;
+  public cartProducts: any = {}
+
 
 
   constructor() {
@@ -27,6 +32,7 @@ export class HomePage implements OnInit {
   }
   ngOnInit(): void {
     this.getProductList();
+    this.loadCart();
   }
 
   async getProductList() {
@@ -49,5 +55,14 @@ export class HomePage implements OnInit {
         }
       })
   }
+
+
+  private loadCart() {
+    this.cart$ = this.cartService.getCart();
+    this.cart$.subscribe((cart) => {
+      this.cartProducts = cart.products
+    })
+  }
+
 
 }

@@ -6,3 +6,54 @@
     <ion-title>Cart</ion-title>
   </ion-toolbar>
 </ion-header>
+
+
+<ion-content [fullscreen]="true">
+  @if ( isLoading){
+    <ion-list class="ion-padding-top">
+      @for (i of dummyArray; track i) {
+        <ion-item lines="none" class="ion-padding-bottom">
+          <ion-avatar slot="start">
+            <ion-skeleton-text></ion-skeleton-text>
+          </ion-avatar>
+          <ion-skeleton-text animated style="height: 40px" />
+        </ion-item>
+        }
+    </ion-list>
+  }
+  <!-- @else if (error) {
+    <ion-alert
+      header="Error"
+      [message]="error"
+      isOpen="true"
+      [buttons]="['Ok']"
+    />
+  } -->
+
+
+  <ion-list class="ion-padding-top">
+    @for (item of cartProducts; track item) {
+    <ion-item button [routerLink]="['/product', item.id]">
+      <ion-avatar slot="start">
+        <img [src]="item.image" />
+      </ion-avatar>
+
+      <ion-label class="ion-text-wrap">
+        <h3>{{ item.title }}</h3>
+      </ion-label>
+
+      <ion-badge slot="end"> {{ item.price | currency }} </ion-badge>
+    </ion-item>
+    }
+    @empty {
+      @if (!isLoading) {
+      <ion-item lines="none">
+        <ion-label class="ion-text-center">No items found</ion-label>
+      </ion-item>
+      }
+    }
+  </ion-list>
+
+</ion-content>
+
+

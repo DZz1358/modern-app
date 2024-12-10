@@ -23,10 +23,32 @@
         </ion-text>
       </ion-card-header>
       <ion-card-content>
-        <ion-item lines="none">
-          <ion-icon name="cash-outline" slot="start"></ion-icon>
-          <ion-label>{{ product.price | currency: 'USD' }}</ion-label>
+        <ion-item lines="none" class="item-container">
+          <ion-button (click)="decrement(product.id)" slot="start" class="counter-button">
+            <ion-icon aria-hidden="true" size="large" name="remove-outline"></ion-icon>
+          </ion-button>
+
+          <div class="counter-display">
+            <span>{{initCount(product)}}</span>
+          </div>
+
+          <ion-button (click)="increment(product)" slot="end" class="counter-button">
+            <ion-icon aria-hidden="true" size="large" name="add-outline"></ion-icon>
+          </ion-button>
+
         </ion-item>
+
+        <div class="product-info-wrapper">
+          <ion-item lines="none">
+            <ion-icon name="cash-outline" slot="start"></ion-icon>
+            <ion-label>{{ product.price | currency: 'USD' }}</ion-label>
+          </ion-item>
+          <ion-item lines="none">
+            <ion-icon slot="start" name="star-outline"></ion-icon>
+            <ion-label>{{ product.rating.rate  }}</ion-label>
+          </ion-item>
+
+        </div>
       </ion-card-content>
     </ion-card>
   }

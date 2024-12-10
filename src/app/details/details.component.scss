@@ -7,3 +7,25 @@
   flex-direction: column;
   align-items: center;
 }
+
+
+.item-container {
+  margin: 0 auto;
+  max-width: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.counter-display {
+  flex: 1;
+  text-align: center;
+  font-size: 1.2em;
+  margin: 0 30px;
+}
+
+.product-info-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

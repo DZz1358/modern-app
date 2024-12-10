@@ -16,11 +16,13 @@ import {
   IonLabel,
   IonText,
   IonTitle,
-  IonToolbar, IonAvatar
+  IonToolbar, IonAvatar, IonBadge, IonButton
 } from '@ionic/angular/standalone'; import { ProductsService } from '../service/products.service';
 import { IProduct } from '../service/interface';
 import { addIcons } from 'ionicons';
-import { cashOutline, calendarOutline } from 'ionicons/icons';
+import { cashOutline, calendarOutline, cartOutline, addOutline, removeOutline, starOutline } from 'ionicons/icons';
+import { Observable } from 'rxjs';
+import { CartService } from '../service/cart.service';
 
 
 @Component({
@@ -28,7 +30,7 @@ import { cashOutline, calendarOutline } from 'ionicons/icons';
   templateUrl: './details.component.html',
   styleUrls: ['./details.component.scss'],
   standalone: true,
-  imports: [
+  imports: [IonButton,
     IonHeader,
     IonToolbar,
     IonTitle,
@@ -48,6 +50,11 @@ import { cashOutline, calendarOutline } from 'ionicons/icons';
 })
 export class DetailsComponent implements OnInit {
   productsService = inject(ProductsService);
+  cartService = inject(CartService)
+  cart$!: Observable<any>;
+  public cartProducts: any = {}
+  public totalPrice = 0
+
   public product: WritableSignal<IProduct | null> = signal<IProduct | null>(
     null,
   );
@@ -60,12 +67,39 @@ export class DetailsComponent implements OnInit {
   }
 
   constructor() {
-    addIcons({
-      cashOutline,
-      calendarOutline,
-    });
+    addIcons({ removeOutline, addOutline, cashOutline, starOutline, cartOutline, calendarOutline, });
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.loadCart();
+    console.log('product', this.product)
+  }
+
+  private loadCart() {
+    this.cart$ = this.cartService.getCart();
+    this.cart$.subscribe((cart) => {
+      this.cartProducts = cart.products
+      if (this.cartProducts) {
+        this.totalPrice = this.cartProducts.reduce((acc: any, curr: any) => acc + (+curr.price * curr.count), 0)
+          .toFixed(2)
+      }
+    })
+  }
+
+
+  initCount(product: any) {
+    const match = this.cartProducts?.find((item: any) => item.id === product.id)
+    return match ? match.count : 0;
+  }
+
+
+  increment(product: any) {
+    this.cartService.addToCart(product)
+  }
+
+  decrement(productId: number) {
+    this.cartService.removeFromCart(productId)
+  }
+
 
 }
