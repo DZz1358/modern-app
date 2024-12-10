@@ -28,7 +28,7 @@ import { cashOutline, calendarOutline } from 'ionicons/icons';
   templateUrl: './details.component.html',
   styleUrls: ['./details.component.scss'],
   standalone: true,
-  imports: [IonAvatar,
+  imports: [
     IonHeader,
     IonToolbar,
     IonTitle,
@@ -37,7 +37,6 @@ import { cashOutline, calendarOutline } from 'ionicons/icons';
     IonCard,
     IonCardHeader,
     IonCardTitle,
-    IonCardSubtitle,
     IonCardContent,
     IonText,
     IonLabel,

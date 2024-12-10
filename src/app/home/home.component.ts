@@ -1,16 +1,18 @@
 import { CurrencyPipe } from '@angular/common';
-import { ProductsService } from './../service/products.service';
+import { ProductsService } from '../service/products.service';
 import { Component, inject, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonItem, IonAvatar, IonSkeletonText, IonAlert, IonLabel, IonBadge } from '@ionic/angular/standalone';
+import { IonHeader, IonIcon, IonToolbar, IonTitle, IonContent, IonList, IonItem, IonAvatar, IonSkeletonText, IonAlert, IonLabel, IonBadge, IonBackButton, IonButtons, IonButton } from '@ionic/angular/standalone';
 import { catchError, finalize } from 'rxjs';
+import { addIcons } from 'ionicons';
+import { logoIonic, cart, cartOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
   standalone: true,
-  imports: [IonAvatar, IonItem, IonList, IonHeader, IonToolbar, IonTitle, IonContent, IonAvatar, IonSkeletonText, IonAlert, RouterModule, IonLabel, IonBadge, CurrencyPipe],
+  imports: [IonButton, IonAvatar, IonItem, IonList, IonHeader, IonToolbar, IonTitle, IonContent, IonAvatar, IonSkeletonText, IonAlert, RouterModule, IonLabel, IonBadge, CurrencyPipe, IonIcon],
 })
 export class HomePage implements OnInit {
   productsService = inject(ProductsService);
@@ -21,6 +23,7 @@ export class HomePage implements OnInit {
 
 
   constructor() {
+    addIcons({ cartOutline, logoIonic });
   }
   ngOnInit(): void {
     this.getProductList();
