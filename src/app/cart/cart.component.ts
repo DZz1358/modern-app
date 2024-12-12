@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { IonBackButton, IonHeader, IonButtons, IonToolbar, IonTitle, IonContent, IonItem, IonList, IonAvatar, IonSkeletonText, IonAlert, IonLabel, IonBadge, IonFooter } from "@ionic/angular/standalone";
 import { debounceTime, Observable } from 'rxjs';
-import { CartService } from '../service/cart.service';
+import { CartService } from '../services/cart.service';
 import { RouterModule } from '@angular/router';
 import { CurrencyPipe } from '@angular/common';
 

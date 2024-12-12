@@ -17,12 +17,13 @@ import {
   IonText,
   IonTitle,
   IonToolbar, IonAvatar, IonBadge, IonButton
-} from '@ionic/angular/standalone'; import { ProductsService } from '../service/products.service';
-import { IProduct } from '../service/interface';
+} from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { cashOutline, calendarOutline, cartOutline, addOutline, removeOutline, starOutline } from 'ionicons/icons';
 import { Observable } from 'rxjs';
-import { CartService } from '../service/cart.service';
+import { ProductsService } from '../services/products.service';
+import { CartService } from '../services/cart.service';
+import { IProduct } from '../models/interface';
 
 
 @Component({

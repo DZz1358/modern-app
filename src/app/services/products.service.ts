@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { delay, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { IProduct } from './interface';
+import { IProduct } from '../models/interface';
 
 @Injectable({
   providedIn: 'root'
