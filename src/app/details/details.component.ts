@@ -73,7 +73,6 @@ export class DetailsComponent implements OnInit {
 
   ngOnInit() {
     this.loadCart();
-    console.log('product', this.product)
   }
 
   private loadCart() {

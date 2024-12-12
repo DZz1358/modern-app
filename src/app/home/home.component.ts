@@ -26,6 +26,7 @@ export class HomePage implements OnInit, OnChanges {
   public cartProducts: any = []
 
   networkStatus: any;
+  isConnected!: boolean;
   private networkSubscription!: Subscription;
 
 
@@ -42,6 +43,7 @@ export class HomePage implements OnInit, OnChanges {
       .subscribe((status) => {
         console.log('Network status changed:', status);
         this.networkStatus = status;
+        this.isConnected = status.connected
       });
   }
 
