@@ -1,5 +1,5 @@
 import { CurrencyPipe } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { IonHeader, IonIcon, IonToolbar, IonTitle, IonContent, IonList, IonItem, IonAvatar, IonSkeletonText, IonAlert, IonLabel, IonBadge, IonBackButton, IonButtons, IonButton } from '@ionic/angular/standalone';
 import { catchError, finalize, Observable, Subscription } from 'rxjs';
@@ -15,7 +15,7 @@ import { ProductsService } from '../services/products.service';
   standalone: true,
   imports: [IonButton, IonAvatar, IonItem, IonList, IonHeader, IonToolbar, IonTitle, IonContent, IonAvatar, IonSkeletonText, IonAlert, RouterModule, IonLabel, IonBadge, CurrencyPipe, IonIcon],
 })
-export class HomePage implements OnInit {
+export class HomePage implements OnInit, OnChanges {
   productsService = inject(ProductsService);
   public isLoading = false;
   public products: any[] = [];
@@ -33,7 +33,7 @@ export class HomePage implements OnInit {
   constructor() {
     addIcons({ cartOutline, logoIonic });
   }
-  ngOnInit(): void {
+  ngOnChanges(changes: SimpleChanges): void {
     this.networkStatus = this.productsService.getCurrentStatus();
 
     // Подписываемся на обновления сети
@@ -43,6 +43,9 @@ export class HomePage implements OnInit {
         console.log('Network status changed:', status);
         this.networkStatus = status;
       });
+  }
+
+  ngOnInit(): void {
 
     this.getProductList();
     this.loadCart();
