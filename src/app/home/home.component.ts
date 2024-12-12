@@ -2,7 +2,7 @@ import { CurrencyPipe } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { IonHeader, IonIcon, IonToolbar, IonTitle, IonContent, IonList, IonItem, IonAvatar, IonSkeletonText, IonAlert, IonLabel, IonBadge, IonBackButton, IonButtons, IonButton } from '@ionic/angular/standalone';
-import { catchError, finalize, Observable } from 'rxjs';
+import { catchError, finalize, Observable, Subscription } from 'rxjs';
 import { addIcons } from 'ionicons';
 import { logoIonic, cart, cartOutline } from 'ionicons/icons';
 import { CartService } from '../services/cart.service';
@@ -25,14 +25,28 @@ export class HomePage implements OnInit {
   cart$!: Observable<any>;
   public cartProducts: any = []
 
+  networkStatus: any;
+  private networkSubscription!: Subscription;
+
 
 
   constructor() {
     addIcons({ cartOutline, logoIonic });
   }
   ngOnInit(): void {
+    this.networkStatus = this.productsService.getCurrentStatus();
+
+    // Подписываемся на обновления сети
+    this.networkSubscription = this.productsService
+      .observeNetworkStatus()
+      .subscribe((status) => {
+        console.log('Network status changed:', status);
+        this.networkStatus = status;
+      });
+
     this.getProductList();
     this.loadCart();
+
   }
 
   async getProductList() {
@@ -64,5 +78,10 @@ export class HomePage implements OnInit {
     })
   }
 
-
+  ngOnDestroy(): void {
+    // Отписываемся, чтобы избежать утечек памяти
+    if (this.networkSubscription) {
+      this.networkSubscription.unsubscribe();
+    }
+  }
 }
