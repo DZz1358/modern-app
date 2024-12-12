@@ -15,7 +15,7 @@ import { ProductsService } from '../services/products.service';
   standalone: true,
   imports: [IonButton, IonAvatar, IonItem, IonList, IonHeader, IonToolbar, IonTitle, IonContent, IonAvatar, IonSkeletonText, IonAlert, RouterModule, IonLabel, IonBadge, CurrencyPipe, IonIcon],
 })
-export class HomePage implements OnInit, OnChanges {
+export class HomePage implements OnInit {
   productsService = inject(ProductsService);
   public isLoading = false;
   public products: any[] = [];
@@ -26,7 +26,6 @@ export class HomePage implements OnInit, OnChanges {
   public cartProducts: any = []
 
   networkStatus: any;
-  isConnected!: boolean;
   private networkSubscription!: Subscription;
 
 
@@ -34,23 +33,16 @@ export class HomePage implements OnInit, OnChanges {
   constructor() {
     addIcons({ cartOutline, logoIonic });
   }
-  ngOnChanges(changes: SimpleChanges): void {
-    this.networkStatus = this.productsService.getCurrentStatus();
-
-    // Подписываемся на обновления сети
-    this.networkSubscription = this.productsService
-      .observeNetworkStatus()
-      .subscribe((status) => {
-        console.log('Network status changed:', status);
-        this.networkStatus = status;
-        this.isConnected = status.connected
-      });
-  }
 
   ngOnInit(): void {
 
     this.getProductList();
     this.loadCart();
+
+    this.networkSubscription = this.productsService.observeNetworkStatus().subscribe((status) => {
+      this.networkStatus = status;
+      console.log('status', status)
+    });
 
   }
 

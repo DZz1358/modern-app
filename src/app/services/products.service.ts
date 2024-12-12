@@ -13,33 +13,29 @@ import { PluginListenerHandle } from '@capacitor/core';
 })
 export class ProductsService {
   http = inject(HttpClient);
+  public checkNetwork: boolean | undefined
 
   constructor() {
-    this.getCurrentStatus()
   }
 
-  async getCurrentStatus(): Promise<any> {
-    return await Network.getStatus();
-  }
-
-  // Observable для отслеживания изменений сети
   observeNetworkStatus(): Observable<any> {
     return new Observable((observer) => {
       let listener: PluginListenerHandle;
 
-      // Устанавливаем слушатель с использованием await
       const setupListener = async () => {
+        const currentStatus = await Network.getStatus();
+        observer.next(currentStatus);
+
         listener = await Network.addListener('networkStatusChange', (status) => {
-          observer.next(status); // Отправляем статус сети подписчикам
+          observer.next(status);
         });
       };
 
       setupListener();
 
-      // Возвращаем метод очистки
       return async () => {
         if (listener) {
-          await listener.remove(); // Убираем слушатель
+          await listener.remove();
         }
       };
     });

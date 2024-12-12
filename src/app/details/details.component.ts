@@ -1,6 +1,6 @@
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { Component, inject, Input, OnInit, signal, WritableSignal } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import {
   IonBackButton,
   IonButtons,
@@ -51,6 +51,7 @@ import { IProduct } from '../models/interface';
 })
 export class DetailsComponent implements OnInit {
   productsService = inject(ProductsService);
+  route = inject(ActivatedRoute);
   cartService = inject(CartService)
   cart$!: Observable<any>;
   public cartProducts: any = {}
@@ -63,6 +64,7 @@ export class DetailsComponent implements OnInit {
   @Input()
   set id(productId: string) {
     this.productsService.getProduct(productId).subscribe((product) => {
+      console.log('product', product)
       this.product.set(product);
     });
   }
@@ -72,6 +74,8 @@ export class DetailsComponent implements OnInit {
   }
 
   ngOnInit() {
+    const productId = this.route.snapshot.paramMap.get('id');
+    console.log('Product ID:', productId);
     this.loadCart();
   }
 
