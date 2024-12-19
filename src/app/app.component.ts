@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { IonApp, IonRouterOutlet, IonTitle, IonAlert, IonButton, IonContent } from '@ionic/angular/standalone';
+import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
 import { NetworkService } from './services/network.service';
 import { Subscription } from 'rxjs';
 import { ToastController } from '@ionic/angular';
