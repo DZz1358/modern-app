@@ -1,12 +1,63 @@
-import { Component } from '@angular/core';
-import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
+import { Component, inject, OnInit } from '@angular/core';
+import { IonApp, IonRouterOutlet, IonTitle, IonAlert, IonButton, IonContent } from '@ionic/angular/standalone';
+import { NetworkService } from './services/network.service';
+import { Subscription } from 'rxjs';
+import { ToastController } from '@ionic/angular';
+import { StorageService } from './services/storage.service';
+import { ProductsService } from './services/products.service';
+
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   standalone: true,
+  providers: [ProductsService],
   imports: [IonApp, IonRouterOutlet],
 })
-export class AppComponent {
-  constructor() { }
+export class AppComponent implements OnInit {
+
+  public networkStatus: any;
+  networkService = inject(NetworkService);
+  storageService = inject(StorageService);
+  toastController = inject(ToastController);
+  productService = inject(ProductsService);
+
+
+  private networkSubscription!: Subscription;
+
+  constructor() {
+
+  }
+
+  ngOnInit() {
+    this.storageService.initStorage();
+    this.networkSubscription = this.networkService.observeNetworkStatus().subscribe((status) => {
+      this.networkStatus = status;
+      this.networkService.updateConnection(status)
+      this.presentToast('top', status.connected);
+    });
+
+  }
+
+  async presentToast(position: 'top' | 'middle' | 'bottom', status: boolean,) {
+    const currentStatus = status ? 'online' : 'offline';
+
+    const toast = await this.toastController.create({
+      message: `We are ${currentStatus}`,
+      duration: 1500,
+      position: position,
+    });
+
+    await toast.present();
+  }
+
+
+
+  ngOnDestroy(): void {
+    if (this.networkSubscription) {
+      this.networkSubscription.unsubscribe();
+    }
+  }
+
+
 }
