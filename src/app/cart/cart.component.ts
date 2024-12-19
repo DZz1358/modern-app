@@ -53,8 +53,6 @@ export class CartComponent implements OnInit {
         this.cartProducts = cart.products
         this.isLoading = false;
       })
-
-
   }
 
 
