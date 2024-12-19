@@ -56,9 +56,10 @@ export class HomePage implements OnInit {
       )
       .subscribe({
         next: (res: any) => {
-          console.log('res', res)
-          this.products.push(...res);
-          this.storageService.setToStorage('products', res);
+          if (res) {
+            this.products.push(...res);
+            this.storageService.setToStorage('products', res);
+          }
         }
       })
   }

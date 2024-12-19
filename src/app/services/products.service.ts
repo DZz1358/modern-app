@@ -1,10 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, OnInit } from '@angular/core';
-import { delay, from, map, Observable } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { IProduct } from '../models/interface';
 import { NetworkService } from './network.service';
 import { StorageService } from '../services/storage.service';
+import { delay, map } from 'rxjs/operators';
 
 
 
