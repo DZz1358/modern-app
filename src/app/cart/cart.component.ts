@@ -33,14 +33,11 @@ export class CartComponent implements OnInit {
   public networkStatus: any
   private networkSubscription!: Subscription;
 
-
-
   ngOnInit(): void {
     this.loadCart();
     this.networkSubscription = this.networkService.observeNetworkStatus().subscribe((status) => {
       this.networkStatus = status.connected;
     });
-
   }
 
   private loadCart() {
@@ -55,12 +52,10 @@ export class CartComponent implements OnInit {
       })
   }
 
-
   initCount(product: any) {
     const match = this.cartProducts?.find((item: any) => item.id === product.id)
     return match ? match.count : 0;
   }
-
 
   increment(product: any) {
     this.cartService.addToCart(product)
