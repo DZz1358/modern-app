@@ -15,19 +15,15 @@ import { ProductsService } from './services/products.service';
   imports: [IonApp, IonRouterOutlet],
 })
 export class AppComponent implements OnInit {
-
   public networkStatus: any;
   networkService = inject(NetworkService);
   storageService = inject(StorageService);
   toastController = inject(ToastController);
   productService = inject(ProductsService);
 
-
   private networkSubscription!: Subscription;
 
-  constructor() {
-
-  }
+  constructor() { }
 
   ngOnInit() {
     this.storageService.initStorage();

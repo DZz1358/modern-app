@@ -1,13 +1,12 @@
-import { CurrencyPipe, DatePipe } from '@angular/common';
-import { Component, inject, Input, OnChanges, OnInit, signal, SimpleChanges, WritableSignal } from '@angular/core';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { CurrencyPipe } from '@angular/common';
+import { Component, inject, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import {
   IonBackButton,
   IonButtons,
   IonCard,
   IonCardContent,
   IonCardHeader,
-  IonCardSubtitle,
   IonCardTitle,
   IonContent,
   IonHeader,
@@ -19,7 +18,7 @@ import {
   IonToolbar, IonAvatar, IonBadge, IonButton, IonSkeletonText
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { cashOutline, calendarOutline, cartOutline, addOutline, removeOutline, starOutline } from 'ionicons/icons';
+import { cashOutline, addOutline, removeOutline, starOutline } from 'ionicons/icons';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { ProductsService } from '../services/products.service';
 import { CartService } from '../services/cart.service';
@@ -32,7 +31,8 @@ import { StorageService } from '../services/storage.service';
   templateUrl: './details.component.html',
   styleUrls: ['./details.component.scss'],
   standalone: true,
-  imports: [IonSkeletonText, IonButton,
+  imports: [
+    IonButton,
     IonHeader,
     IonToolbar,
     IonTitle,

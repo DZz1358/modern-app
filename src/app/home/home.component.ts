@@ -1,10 +1,10 @@
 import { CurrencyPipe } from '@angular/common';
-import { Component, inject, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { IonHeader, IonIcon, IonToolbar, IonTitle, IonContent, IonList, IonItem, IonAvatar, IonSkeletonText, IonAlert, IonLabel, IonBadge, IonBackButton, IonButtons, IonButton } from '@ionic/angular/standalone';
-import { catchError, finalize, Observable, Subscription } from 'rxjs';
+import { IonHeader, IonIcon, IonToolbar, IonTitle, IonContent, IonList, IonItem, IonAvatar, IonSkeletonText, IonAlert, IonLabel, IonBadge, IonButton } from '@ionic/angular/standalone';
+import { catchError, finalize, Observable } from 'rxjs';
 import { addIcons } from 'ionicons';
-import { logoIonic, cart, cartOutline } from 'ionicons/icons';
+import { logoIonic, cartOutline } from 'ionicons/icons';
 import { CartService } from '../services/cart.service';
 import { ProductsService } from '../services/products.service';
 import { NetworkService } from '../services/network.service';
