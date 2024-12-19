@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { IonBackButton, IonHeader, IonButtons, IonToolbar, IonTitle, IonContent, IonItem, IonList, IonAvatar, IonSkeletonText, IonAlert, IonLabel, IonBadge, IonFooter, IonButton } from "@ionic/angular/standalone";
-import { debounceTime, Observable, Subscription } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 import { CartService } from '../services/cart.service';
 import { RouterModule } from '@angular/router';
 import { CurrencyPipe } from '@angular/common';
@@ -8,6 +8,7 @@ import { StorageService } from '../services/storage.service';
 import { NetworkService } from '../services/network.service';
 import { ToastController } from '@ionic/angular';
 import { ProductsService } from '../services/products.service';
+import { Observable, Subscription } from 'rxjs';
 
 
 @Component({
@@ -47,7 +48,7 @@ export class CartComponent implements OnInit {
       debounceTime(2000)
     )
       .subscribe((cart) => {
-        this.cartProducts = cart.products
+        this.cartProducts = (cart as any).products
         this.isLoading = false;
       })
   }

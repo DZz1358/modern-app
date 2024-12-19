@@ -19,11 +19,12 @@ import {
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { cashOutline, addOutline, removeOutline, starOutline } from 'ionicons/icons';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { ProductsService } from '../services/products.service';
 import { CartService } from '../services/cart.service';
 import { IProduct } from '../models/interface';
 import { StorageService } from '../services/storage.service';
+import { takeUntil } from 'rxjs/operators';
 
 
 @Component({
