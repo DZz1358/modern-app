@@ -1,13 +1,12 @@
-import { CurrencyPipe, DatePipe } from '@angular/common';
-import { Component, inject, Input, OnInit, signal, WritableSignal } from '@angular/core';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { CurrencyPipe } from '@angular/common';
+import { Component, inject, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import {
   IonBackButton,
   IonButtons,
   IonCard,
   IonCardContent,
   IonCardHeader,
-  IonCardSubtitle,
   IonCardTitle,
   IonContent,
   IonHeader,
@@ -16,14 +15,16 @@ import {
   IonLabel,
   IonText,
   IonTitle,
-  IonToolbar, IonAvatar, IonBadge, IonButton
+  IonToolbar, IonAvatar, IonBadge, IonButton, IonSkeletonText
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { cashOutline, calendarOutline, cartOutline, addOutline, removeOutline, starOutline } from 'ionicons/icons';
-import { Observable } from 'rxjs';
+import { cashOutline, addOutline, removeOutline, starOutline } from 'ionicons/icons';
+import { Observable, Subject } from 'rxjs';
 import { ProductsService } from '../services/products.service';
 import { CartService } from '../services/cart.service';
 import { IProduct } from '../models/interface';
+import { StorageService } from '../services/storage.service';
+import { takeUntil } from 'rxjs/operators';
 
 
 @Component({
@@ -31,7 +32,8 @@ import { IProduct } from '../models/interface';
   templateUrl: './details.component.html',
   styleUrls: ['./details.component.scss'],
   standalone: true,
-  imports: [IonButton,
+  imports: [
+    IonButton,
     IonHeader,
     IonToolbar,
     IonTitle,
@@ -52,42 +54,47 @@ import { IProduct } from '../models/interface';
 export class DetailsComponent implements OnInit {
   productsService = inject(ProductsService);
   route = inject(ActivatedRoute);
+  storageService = inject(StorageService);
   cartService = inject(CartService)
   cart$!: Observable<any>;
   public cartProducts: any = {}
   public totalPrice = 0
+  public isLoading = false;
 
-  public product: WritableSignal<IProduct | null> = signal<IProduct | null>(
-    null,
-  );
 
-  @Input()
-  set id(productId: string) {
-    this.productsService.getProduct(productId).subscribe((product) => {
-      console.log('product', product)
-      this.product.set(product);
-    });
-  }
+  private id!: string;
+  public product: IProduct = {} as IProduct;
+  private destroy$ = new Subject<void>();
 
   constructor() {
-    addIcons({ removeOutline, addOutline, cashOutline, starOutline, cartOutline, calendarOutline, });
+    addIcons({ removeOutline, addOutline, cashOutline, starOutline });
   }
-
   ngOnInit() {
-    const productId = this.route.snapshot.paramMap.get('id');
-    console.log('Product ID:', productId);
+    this.id = this.route.snapshot.paramMap.get('id')!;
+    if (this.id) {
+      this.isLoading = true;
+
+      this.productsService.getProduct(this.id)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((product) => {
+          this.product = product;
+          this.isLoading = false;
+        });
+    }
     this.loadCart();
   }
 
   private loadCart() {
     this.cart$ = this.cartService.getCart();
-    this.cart$.subscribe((cart) => {
-      this.cartProducts = cart.products
-      if (this.cartProducts) {
-        this.totalPrice = this.cartProducts.reduce((acc: any, curr: any) => acc + (+curr.price * curr.count), 0)
-          .toFixed(2)
-      }
-    })
+    this.cart$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((cart) => {
+        this.cartProducts = cart.products
+        if (this.cartProducts) {
+          this.totalPrice = this.cartProducts.reduce((acc: any, curr: any) => acc + (+curr.price * curr.count), 0)
+            .toFixed(2)
+        }
+      })
   }
 
 
@@ -96,7 +103,6 @@ export class DetailsComponent implements OnInit {
     return match ? match.count : 0;
   }
 
-
   increment(product: any) {
     this.cartService.addToCart(product)
   }
@@ -104,6 +110,5 @@ export class DetailsComponent implements OnInit {
   decrement(productId: number) {
     this.cartService.removeFromCart(productId)
   }
-
 
 }

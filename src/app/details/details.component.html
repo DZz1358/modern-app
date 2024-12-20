@@ -3,21 +3,19 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/"></ion-back-button>
     </ion-buttons>
-    <ion-title>{{ product()?.title }}</ion-title>
+    <ion-title>{{ product.title }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 
 <ion-content>
-  @if(product(); as product){
     <ion-card>
       <div  class="card">
         <img class="img" [src]="product.image" />
-
       </div>
 
       <ion-card-header>
-        <ion-card-title> {{ product?.title }} </ion-card-title>
+        <ion-card-title> {{ product.title }} </ion-card-title>
         <ion-text color="tertiary">
           {{product.description}}
         </ion-text>
@@ -51,6 +49,4 @@
         </div>
       </ion-card-content>
     </ion-card>
-  }
-
 </ion-content>
