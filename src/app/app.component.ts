@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
 import { NetworkService } from './services/network.service';
-import { ToastController } from '@ionic/angular';
+import { ToastController } from '@ionic/angular/standalone';
 import { ProductsService } from './services/products.service';
 import { Subscription } from 'rxjs';
 import { StorageService } from './services/storage.service';
