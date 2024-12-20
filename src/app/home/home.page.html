@@ -2,6 +2,7 @@
   <ion-toolbar color="primary">
     <ion-title>Product List</ion-title>
 
+
     <ion-button [routerLink]="['/cart']" class="cart-btn" aria-label="Cart" slot="end">
       <ion-icon aria-hidden="true" size="large" name="cart-outline">
       </ion-icon>
@@ -12,7 +13,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  @if ( isLoading){
+  @if (isLoading){
     <ion-list class="ion-padding-top">
       @for (i of dummyArray; track i) {
         <ion-item lines="none" class="ion-padding-bottom">

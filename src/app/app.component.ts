@@ -30,6 +30,7 @@ export class AppComponent {
       this.networkStatus = status;
       this.networkService.updateConnection(status)
       this.presentToast('top', status.connected);
+      console.log('Network status changed', status);
     });
 
   }
