@@ -4,17 +4,19 @@ import { NetworkService } from './services/network.service';
 import { ToastController } from '@ionic/angular';
 import { ProductsService } from './services/products.service';
 import { Subscription } from 'rxjs';
+import { StorageService } from './services/storage.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   standalone: true,
+  providers: [ProductsService],
   imports: [IonApp, IonRouterOutlet],
 })
 export class AppComponent {
   public networkStatus: any;
   networkService = inject(NetworkService);
-  // storageService = inject(StorageService);
+  storageService = inject(StorageService);
   toastController = inject(ToastController);
   productService = inject(ProductsService);
 
@@ -23,7 +25,7 @@ export class AppComponent {
   constructor() { }
 
   ngOnInit() {
-    // this.storageService.initStorage();
+    this.storageService.initStorage();
     this.networkSubscription = this.networkService.observeNetworkStatus().subscribe((status) => {
       this.networkStatus = status;
       this.networkService.updateConnection(status)
