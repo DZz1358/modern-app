@@ -1,22 +1,23 @@
 import { Routes } from '@angular/router';
+import { HomePage } from './home/home.component';
+import { DetailsComponent } from './details/details.component';
+import { CartComponent } from './cart/cart.component';
 
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'home',
-    pathMatch: 'full',
+    component: HomePage
   },
   {
     path: 'home',
-    loadComponent: () => import('./home/home.component').then((m) => m.HomePage),
+    component: HomePage
   },
   {
     path: 'product/:id',
-    loadComponent: () => import('./details/details.component').then((m) => m.DetailsComponent),
+    component: DetailsComponent
   },
   {
     path: 'cart',
-    loadComponent: () => import('./cart/cart.component').then((m) => m.CartComponent),
-    pathMatch: 'full',
+    component: CartComponent
   },
 ];
