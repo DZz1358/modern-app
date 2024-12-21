@@ -15,7 +15,7 @@ import {
   IonLabel,
   IonText,
   IonTitle,
-  IonToolbar, IonAvatar, IonBadge, IonButton, IonSkeletonText
+  IonToolbar, IonButton, IonSkeletonText, IonListHeader, IonThumbnail
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { cashOutline, addOutline, removeOutline, starOutline } from 'ionicons/icons';
@@ -32,7 +32,7 @@ import { takeUntil } from 'rxjs/operators';
   templateUrl: './details.component.html',
   styleUrls: ['./details.component.scss'],
   standalone: true,
-  imports: [
+  imports: [IonListHeader, IonSkeletonText,
     IonButton,
     IonHeader,
     IonToolbar,
@@ -49,6 +49,7 @@ import { takeUntil } from 'rxjs/operators';
     IonBackButton,
     IonItem,
     CurrencyPipe,
+    IonThumbnail
   ],
 })
 export class DetailsComponent implements OnInit {

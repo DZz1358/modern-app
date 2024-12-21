@@ -7,10 +7,42 @@
   </ion-toolbar>
 </ion-header>
 
-
 <ion-content>
+  @if (isLoading){
     <ion-card>
-      <div  class="card">
+      <div class="card">
+        <ion-thumbnail slot="start">
+          <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+        </ion-thumbnail>
+
+        <ion-list-header style="width: 300px">
+          <ion-skeleton-text [animated]="true" ></ion-skeleton-text>
+        </ion-list-header>
+
+        <ion-card-content style="width: 300px">
+          <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+          <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+          <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+        </ion-card-content>
+
+        <ion-item lines="none" class="item-container">
+          <ion-button style="width: 30px; height: 30px; border-radius: 4px;" slot="start" >
+            <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+          </ion-button>
+          <div  class="counter-display">
+            <ion-skeleton-text style="width: 30px; height: 30px; border-radius: 4px;" [animated]="true"></ion-skeleton-text>
+          </div>
+          <ion-button style="width: 30px; height: 30px; border-radius: 4px;" slot="end" >
+            <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+          </ion-button>
+        </ion-item>
+      </div>
+    </ion-card>
+
+  }@else{
+
+    <ion-card>
+      <div class="card">
         <img class="img" [src]="product.image" />
       </div>
 
@@ -43,10 +75,13 @@
           </ion-item>
           <ion-item lines="none">
             <ion-icon slot="start" name="star-outline"></ion-icon>
-            <ion-label>{{ product.rating.rate  }}</ion-label>
+            <ion-label>{{ product.rating?.rate  }}</ion-label>
           </ion-item>
 
         </div>
       </ion-card-content>
     </ion-card>
+
+  }
+
 </ion-content>
