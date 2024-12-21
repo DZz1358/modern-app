@@ -4,11 +4,10 @@ import { DetailsComponent } from './details/details.component';
 import { CartComponent } from './cart/cart.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
-  // {
-  //   path: '',
-  //   component: HomePage
-  // },
+  {
+    path: '',
+    component: HomePage
+  },
   {
     path: 'home',
     component: HomePage
