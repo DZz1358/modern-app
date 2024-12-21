@@ -82,13 +82,13 @@ export class CartComponent implements OnInit {
     const storageCart: any[] = [];
     storageCart.push(this.cartProducts);
     const currentQueue = await this.storageService.getFromStorage('queue')
-
+    console.log('currentQueue', currentQueue)
     if (this.networkStatus) {
       // logic for send request
       this.cartService.clearCurrentCart();
       this.presentToast('top', this.networkStatus, 'request with connection');
     } else {
-      if (currentQueue.length > 0) {
+      if (currentQueue && currentQueue.length > 0) {
         currentQueue.push(this.cartProducts)
         this.storageService.setToStorage('queue', currentQueue)
         this.presentToast('top', this.networkStatus, 'request withOUT connection add to store');
@@ -96,7 +96,8 @@ export class CartComponent implements OnInit {
       } else {
         this.storageService.setToStorage('queue', storageCart);
         this.cartService.clearCurrentCart();
-        console.log('create storage')
+        this.presentToast('top', this.networkStatus, 'request withOUT connection and create store');
+
       }
     }
   }
@@ -107,7 +108,7 @@ export class CartComponent implements OnInit {
 
     const toast = await this.toastController.create({
       message: `We are ${currentStatus}, ${decs}`,
-      duration: 1500,
+      duration: 3000,
       position: position,
     });
 
