@@ -71,7 +71,7 @@ export class CartComponent implements OnInit {
   }
 
   clearStorage() {
-    this.storageService.removeFromStorage('cart')
+    this.storageService.removeFromStorage('queue')
   }
 
   checkStorage() {
@@ -79,17 +79,24 @@ export class CartComponent implements OnInit {
   }
 
   async sendRequest() {
+    let currentCart = {
+      products: this.cartProducts,
+      date: new Date(),
+      type: 'cart'
+    }
+
     const storageCart: any[] = [];
-    storageCart.push(this.cartProducts);
+    storageCart.push(currentCart);
+
     const currentQueue = await this.storageService.getFromStorage('queue')
-    console.log('currentQueue', currentQueue)
+
     if (this.networkStatus) {
       // logic for send request
       this.cartService.clearCurrentCart();
       this.presentToast('top', this.networkStatus, 'request with connection');
     } else {
       if (currentQueue && currentQueue.length > 0) {
-        currentQueue.push(this.cartProducts)
+        currentQueue.push(currentCart)
         this.storageService.setToStorage('queue', currentQueue)
         this.presentToast('top', this.networkStatus, 'request withOUT connection add to store');
         this.cartService.clearCurrentCart();
