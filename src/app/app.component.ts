@@ -5,12 +5,13 @@ import { ToastController } from '@ionic/angular/standalone';
 import { ProductsService } from './services/products.service';
 import { Subscription } from 'rxjs';
 import { StorageService } from './services/storage.service';
+import { QueueService } from './services/queue.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   standalone: true,
-  providers: [ProductsService],
+  providers: [ProductsService, QueueService],
   imports: [IonApp, IonRouterOutlet],
 })
 export class AppComponent {
@@ -19,6 +20,7 @@ export class AppComponent {
   storageService = inject(StorageService);
   toastController = inject(ToastController);
   productService = inject(ProductsService);
+  queueService = inject(QueueService);
 
   private networkSubscription!: Subscription;
 
@@ -30,7 +32,10 @@ export class AppComponent {
       this.networkStatus = status;
       this.networkService.updateConnection(status)
       this.presentToast('top', status.connected);
-      console.log('Network status changed', status);
+
+      if (status.connected) {
+        this.queueService.processQueue();
+      }
     });
 
   }
